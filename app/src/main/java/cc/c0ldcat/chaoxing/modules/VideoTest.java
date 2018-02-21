@@ -99,6 +99,8 @@ public class VideoTest implements IXposedHookLoadPackage, Iterable<VideoTest.Ans
                                     + ", DESC: " + answer.getDescription()
                                     + ", CHECKED: " + answer.isChecked());
                         }
+
+                        LogUtils.i("guess" + videoTest.guessAnswer());
                     }
                 }
             });
@@ -111,6 +113,31 @@ public class VideoTest implements IXposedHookLoadPackage, Iterable<VideoTest.Ans
 
     public int getSize() {
         return testListView.getCount() - 1;
+    }
+
+    public List<Boolean> guessAnswer() {
+        if (checkRightButton.getVisibility() == View.VISIBLE) {
+            int size = getSize();
+
+            if (possibleAnswers == null) {
+                possibleAnswers = CommonUtils.cartesianProduct(Arrays.asList(true, false), size);
+            }
+
+            List<Boolean> possibleAnswer = possibleAnswers.remove(0);
+            for (int i = 0; i < size; i++) {
+                try {
+                    getAnswer(i).setChecked(possibleAnswer.get(i));
+                    if (possibleAnswer.get(i) && !isMultiChoice()) break; // WHY??
+                } catch (Exception e) {
+                    LogUtils.e(CommonUtils.exceptionStacktraceToString(e));
+                }
+            }
+            checkRightButton.performClick();
+
+            return possibleAnswer;
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     public boolean isMultiChoice() {
