@@ -1,4 +1,4 @@
-package cc.c0ldcat.chaoxing;
+package cc.c0ldcat.chaoxing.utils;
 
 import java.lang.reflect.Field;
 
