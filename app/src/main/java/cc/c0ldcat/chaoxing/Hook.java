@@ -1,5 +1,6 @@
 package cc.c0ldcat.chaoxing;
 
+import cc.c0ldcat.chaoxing.modules.AutoPlay;
 import cc.c0ldcat.chaoxing.modules.VideoTest;
 import cc.c0ldcat.chaoxing.modules.WebViewDebug;
 import cc.c0ldcat.chaoxing.utils.LogUtils;
@@ -7,7 +8,7 @@ import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class Hook implements IXposedHookLoadPackage {
-    private static Class<?>[] moduleClasses = new Class<?>[] {VideoTest.class, WebViewDebug.class};
+    private static Class<?>[] moduleClasses = new Class<?>[] {VideoTest.class, WebViewDebug.class, AutoPlay.class};
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
