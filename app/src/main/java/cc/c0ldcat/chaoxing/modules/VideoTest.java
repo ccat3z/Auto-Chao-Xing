@@ -11,7 +11,6 @@ import cc.c0ldcat.chaoxing.utils.LogUtils;
 import cc.c0ldcat.chaoxing.utils.ViewUtils;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -44,14 +43,8 @@ public class VideoTest implements IXposedHookLoadPackage, Iterable<VideoTest.Ans
 
     private List<List<Boolean>> possibleAnswers;
 
-    public VideoTest(XC_LoadPackage.LoadPackageParam loadPackageParam) {
-        handleLoadPackage(loadPackageParam);
-    }
-
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         if (loadPackageParam.packageName.equals("com.chaoxing.mobile")) {
-            XposedBridge.log("in chaoxing app");
-
             final VideoTest videoTest = this;
 
             // find class
@@ -129,7 +122,7 @@ public class VideoTest implements IXposedHookLoadPackage, Iterable<VideoTest.Ans
                     getAnswer(i).setChecked(possibleAnswer.get(i));
                     if (possibleAnswer.get(i) && !isMultiChoice()) break; // WHY??
                 } catch (Exception e) {
-                    LogUtils.e(CommonUtils.exceptionStacktraceToString(e));
+                    LogUtils.e(e);
                 }
             }
             checkRightButton.performClick();
@@ -195,7 +188,7 @@ public class VideoTest implements IXposedHookLoadPackage, Iterable<VideoTest.Ans
             try {
                 return getAnswer(index++);
             } catch (Exception e) {
-                LogUtils.e(CommonUtils.exceptionStacktraceToString(e));
+                LogUtils.e(e);
                 return null;
             }
         }

@@ -53,7 +53,7 @@ public class CommonUtils {
         return allResult;
     }
 
-    public static String exceptionStacktraceToString(Exception e) {
+    public static String exceptionStacktraceToString(Throwable e) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         e.printStackTrace(ps);
