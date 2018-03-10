@@ -25,6 +25,7 @@ public class AutoNext implements IXposedHookLoadPackage {
     private Class<?> knowledgeClass;
     private Class<?> newKnowledgeClass;
     private Class<?> knowledgeOnCliskListenerClass;
+    private Class<Enum> knowledgeShowStatusEnumClass;
 
     private Activity currentKnowledgePagerActivity;
     private Object currentCourseKnowledgeListNewKnowledgeAdapter;
@@ -47,6 +48,7 @@ public class AutoNext implements IXposedHookLoadPackage {
         knowledgeClass = XposedHelpers.findClassIfExists("com.chaoxing.fanya.common.model.Knowledge", loadPackageParam.classLoader);
         newKnowledgeClass = XposedHelpers.findClassIfExists("com.chaoxing.fanya.common.model.NewKnowledge", loadPackageParam.classLoader);
         knowledgeOnCliskListenerClass = XposedHelpers.findClassIfExists("com.chaoxing.fanya.aphone.ui.course.ai", loadPackageParam.classLoader);
+        knowledgeShowStatusEnumClass = (Class<Enum>) XposedHelpers.findClassIfExists("com.chaoxing.fanya.common.model.KnowledgeShowStatus", loadPackageParam.classLoader);
 
         // get current knowledge pager activity
         XposedHelpers.findAndHookMethod(knowledgePagerActivityClass, "onCreate", Bundle.class, new XC_MethodHook() {
@@ -102,12 +104,16 @@ public class AutoNext implements IXposedHookLoadPackage {
         });
 
         // find knowledge index and request new
-        // TODO: skip invalid knowledge
         XposedHelpers.findAndHookMethod(knowledgeOnCliskListenerClass, "onClick", View.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 int currentKnowledgeIndex = (int) FieldHelper.getPrivateObject(knowledgeOnCliskListenerClass, "b", param.thisObject);
                 wantKnowledgeIndex = currentKnowledgeIndex + 1;
+
+                // skip invalid knowledge
+                if (knowledgeClass.getMethod("getShowStatus").invoke(getKnowledge(wantKnowledgeIndex)) == Enum.valueOf(knowledgeShowStatusEnumClass, "LOCK")) {
+                    wantKnowledgeIndex += 1;
+                }
 
                 LogUtils.i("current knowledge id: " + currentKnowledgeIndex);
             }
