@@ -15,4 +15,16 @@ public class ViewUtils {
             return listView.getChildAt(childIndex);
         }
     }
+
+    public static View getPositionByView(View view, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        for (int i = firstListItemPosition; i <= lastListItemPosition; i++) {
+            if (listView.getChildAt(i) == view)
+                return view;
+        }
+
+        return null;
+    }
 }
