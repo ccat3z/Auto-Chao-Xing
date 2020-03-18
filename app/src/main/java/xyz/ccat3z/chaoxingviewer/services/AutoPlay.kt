@@ -17,7 +17,8 @@ import java.util.concurrent.TimeUnit
 class AutoPlay(
         private val onScreenActivity: OnScreenActivity,
         private val accessibilityService: AccessibilityService,
-        accessibilityEvents: Observable<AccessibilityEvent>
+        accessibilityEvents: Observable<AccessibilityEvent>,
+        private val nextCourse: NextCourse
 ) {
     private val inChapterDetailActivity: Boolean
         get() = onScreenActivity.currentActivityInfo.className == "com.chaoxing.fanya.aphone.ui.chapter.detail.ui.ChapterDetailActivity"
@@ -63,7 +64,10 @@ class AutoPlay(
                 .takeUntil { it } // completed on finished
                 .filter { !it } // only unfinished
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ playVideo() }, { logger.e(it) }, { onChapterFinished() })
+                .subscribe({ playVideo() }, { logger.e(it) }, {
+                    onChapterFinished()
+                    nextCourse.justFinished = chapter
+                })
     }
 
     private fun isChapterOnScreenFinished(): Boolean {
