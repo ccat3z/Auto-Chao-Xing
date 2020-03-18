@@ -13,10 +13,19 @@ class OnScreenActivity(accessibilityEvents: Observable<AccessibilityEvent>) {
             }
             .map { ActivityInfo(it.className.toString()) }
             .distinctUntilChanged()
-            .doOnNext { Log.d(Common.LOG_TAG, "in activity: $it") }
+            .doOnNext {
+                Log.d("OnScreenActivity", "in activity: $it")
+                currentActivityInfo = it
+            }
             .replay(1)
             .refCount()
 
+    var currentActivityInfo: ActivityInfo = ActivityInfo("unknown")
+        private set
+
+    init {
+        currentActivity.subscribe()
+    }
 }
 
 data class ActivityInfo(val className: String)
