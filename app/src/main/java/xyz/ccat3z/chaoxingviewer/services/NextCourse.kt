@@ -76,7 +76,7 @@ class NextCourse(
                     val title = node.getChild(2)?.text?.toString()?.trim() ?: "unknown"
                     "$index $title"
                 }(),
-                node
+                node.parent
         )
     }
     private fun findNextCourse(nameOfLastCourse: String): CourseNode? {
