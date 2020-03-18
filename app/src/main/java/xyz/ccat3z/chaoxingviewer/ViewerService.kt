@@ -10,6 +10,11 @@ class ViewerService : AccessibilityService() {
 
     override fun onServiceConnected() {
         Log.d("Viewer", "service started")
+        ServicesContainer(this).apply {
+            autoPlay
+            autoAnswer
+            nextCourse
+        }
     }
 
     override fun onAccessibilityEvent(accessibilityEvent: AccessibilityEvent) {
