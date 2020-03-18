@@ -8,4 +8,5 @@ class Logger(private val tag: String) {
     fun i(msg: String) = Log.i(tag, msg)
     fun w(msg: String) = Log.w(tag, msg)
     fun e(msg: String) = Log.e(tag, msg)
+    fun e(e: Throwable) = Log.e(tag, e.toString())
 }
