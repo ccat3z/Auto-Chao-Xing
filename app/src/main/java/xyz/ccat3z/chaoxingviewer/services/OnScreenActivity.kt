@@ -3,7 +3,6 @@ package xyz.ccat3z.chaoxingviewer.services
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import io.reactivex.rxjava3.core.Observable
-import xyz.ccat3z.chaoxingviewer.Common
 
 class OnScreenActivity(accessibilityEvents: Observable<AccessibilityEvent>) {
     val currentActivity: Observable<ActivityInfo> = accessibilityEvents

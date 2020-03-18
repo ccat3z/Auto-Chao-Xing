@@ -1,15 +1,14 @@
 package xyz.ccat3z.chaoxingviewer.services
 
 import android.accessibilityservice.AccessibilityService
-import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
-import xyz.ccat3z.chaoxingviewer.Common
 import xyz.ccat3z.chaoxingviewer.extensions.findSingleAccessibilityNodeInfoByViewId
+import xyz.ccat3z.chaoxingviewer.utils.Logger
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
@@ -18,6 +17,7 @@ class ChaoXingCourse(
         accessibilityEvents: Observable<AccessibilityEvent>,
         private val accessibilityService: AccessibilityService
 ) {
+    private val logger = Logger("Course")
     val latestCourse = BehaviorSubject.createDefault(CourseInfo())!!
     private var inCourseActivity = false
 
@@ -26,7 +26,7 @@ class ChaoXingCourse(
             .filter { it.eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED }
             .publish()
             .autoConnect()
-            .doOnComplete { Log.d(Common.LOG_TAG, "done") }
+            .doOnComplete { logger.d("done") }
     private val currentActivity = onScreenActivity.currentActivity
     private val currentRoot
         get() = accessibilityService.rootInActiveWindow ?: throw Exception("cannot get root node")
