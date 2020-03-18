@@ -9,6 +9,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import xyz.ccat3z.chaoxingviewer.Common
+import xyz.ccat3z.chaoxingviewer.extensions.findSingleAccessibilityNodeInfoByViewId
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
@@ -81,9 +82,6 @@ class ChaoXingCourse(
         }
         knowledgeRecycleView!!.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD)
     }
-
-    private fun AccessibilityNodeInfo.findSingleAccessibilityNodeInfoByViewId(viewId: String) =
-        this.findAccessibilityNodeInfosByViewId(viewId)?.getOrNull(0)
 }
 
 data class CourseInfo(
