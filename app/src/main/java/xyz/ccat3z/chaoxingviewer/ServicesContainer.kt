@@ -10,5 +10,5 @@ import xyz.ccat3z.chaoxingviewer.services.OnScreenActivity
 class ServicesContainer(val viewerService: ViewerService) {
     val onScreenActivity by lazy { OnScreenActivity(viewerService.accessibilityEvents) }
     val course by lazy { ChaoXingCourse(onScreenActivity, viewerService.accessibilityEvents, viewerService) }
-    val autoPlay by lazy { AutoPlay(onScreenActivity, viewerService) }
+    val autoPlay by lazy { AutoPlay(onScreenActivity, viewerService, viewerService.accessibilityEvents) }
 }
