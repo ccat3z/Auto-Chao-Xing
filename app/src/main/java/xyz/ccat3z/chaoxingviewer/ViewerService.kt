@@ -9,7 +9,7 @@ class ViewerService : AccessibilityService() {
     val accessibilityEvents = PublishSubject.create<AccessibilityEvent>()!!
 
     override fun onServiceConnected() {
-        Log.d(Common.LOG_TAG, "service started")
+        Log.d("Viewer", "service started")
     }
 
     override fun onAccessibilityEvent(accessibilityEvent: AccessibilityEvent) {
@@ -23,7 +23,7 @@ class ViewerService : AccessibilityService() {
         super.onDestroy()
         accessibilityEvents.onComplete()
 
-        Log.d(Common.LOG_TAG, "service stopped")
+        Log.d("Viewer", "service stopped")
     }
 
     override fun onInterrupt() {}
